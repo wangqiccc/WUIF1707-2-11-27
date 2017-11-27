@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<pre>
+
+mysql -uroot -p
+
+create database stroe;
+
+mysql> use store;
+<!--表格1-->
+mysql> create table goods(
+-> id int(11) not null auto_increment primary key,
+-> gname varchar(20) not null,
+-> gprice int(11) not null,
+-> tid int(11) not null,
+-> num int(100) not null,
+-> )engine=innodb default charset=utf8;
+<!--表格2-->
+mysql> create table type(
+-> id int(11) not null auto_increment primary key,
+-> tname varchar(20) not null,
+-> sort int(11) not null
+-> )engine=innodb default charset=utf8;
+<!--表格3-->
+mysql> create table dingdan(
+-> id int(11) not null auto_increment primary key,
+-> cid int(11) not null,
+-> number int(11) not null
+-> )engine=innodb default charset=utf8;
+
+
+1、所有商品的平均价格
+mysql> select avg(gprice) as avgprice from goods;
+7.6667
+
+2、糖果平均价格
+
+mysql> select tname, avg(gprice) from goods,type where tid=1;
++-------+-------------+
+| tname | avg(gprice) |
++-------+-------------+
+| 糖果  |      9.0000 |
++-------+-------------
+
+3、查询某个商品的存货价值
+mysql> select gname,gprice*num from goods where id=1;
++-------+------------+
+| gname | gprice*num |
++-------+------------+
+| 软糖  |        200 |
++-------+------------+
+
+4、查询某订单的金额
+mysql> select goods.gprice*dingdan.number from goods,dingdan where goods.id=3 && dingdan.cid=3;
++-----------------------------+
+| goods.gprice*dingdan.number |
++-----------------------------+
+|                          90 |
++-----------------------------+
+
+5、查询价格最低的三个商品
+mysql> select goods.gname,goods.gprice from goods order by goods.gprice limit 0,3;
++--------+--------+
+| gname  | gprice |
++--------+--------+
+| 五香味 |      5 |
+| 奶油味 |      6 |
+| 绿茶味 |      7 |
++--------+--------+
+
+6、最新添加的一个商品
+select goods.gname,goods.id from goods order by goods.id desc limi
+t 0,1;
++--------+----+
+| gname  | id |
++--------+----+
+| 焦糖味 |  9 |
++--------+----+
+
+7、查询商品中所有信息及其类型
+select goods.*,type.tname from goods,type where goods.tid=type.id;
+
++----+--------+--------+-----+-----+-------+
+| id | gname  | gprice | tid | num | tname |
++----+--------+--------+-----+-----+-------+
+|  1 | 软糖   |     10 |   1 |  20 | 糖果  |
+|  2 | 硬糖   |      8 |   1 |  30 | 糖果  |
+|  3 | 酥糖   |      9 |   1 |  25 | 糖果  |
+|  4 | 五香味 |      5 |   2 |  31 | 瓜子  |
+|  5 | 奶油味 |      6 |   2 |  35 | 瓜子  |
+|  6 | 绿茶味 |      7 |   2 |  40 | 瓜子  |
+|  7 | 山楂味 |      8 |   3 |  21 | 酸奶  |
+|  8 | 原味   |      7 |   3 |  22 | 酸奶  |
+|  9 | 焦糖味 |      9 |   3 |  26 | 酸奶  |
++----+--------+--------+-----+-----+-------+
+
+8、销量最高的三个商品
+select goods.gname,dingdan.* from goods,dingdan where goods.id=din
+gdan.cid order by dingdan.number desc limit 0,3;
++--------+----+-----+--------+
+| gname  | id | cid | number |
++--------+----+-----+--------+
+| 山楂味 |  6 |   7 |     21 |
+| 原味   |  3 |   8 |     20 |
+| 软糖   |  5 |   1 |     12 |
++--------+----+-----+--------+
+</pre>
+</body>
+</html>
