@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+## 练习 三张表
+1. 商品表  id    商品名称 商品价格 商品类型id  存货量
+   goods   gid    gname    gprice    tid       surplus
+2. 类型表  id 类型名称 类型排序
+    type   id  tname     tsort
+3. 订单表  id   商品id    个数
+   orders  oid   goodid   num
+查询：
+1. 查询所有商品的平均价格
+select avg(gprice) as averageprice from goods;
+2. 查询某一类型商品的平均价格
+select avg(gprice) as averageprice from goods where tid=2;
+3. 查询某个商品的存货价值
+select gprice*surplus as value from goods where gid=6;
+4. 查询某个订单的金额
+select orders.goodid,orders.num*goods.gprice as value from goods,orders where orders.goodid=1 and goods.gid=1;
+5. 查询价格最低的三个商品
+select * from goods order by gprice limit 0,3;
+6. 查询最新添加的一个商品
+select * from goods order by gid desc limit 0,1;
+7. 查询商品的所有信息以及它的类型
+select goods.gname,goods.gprice,goods.surplus,type.tname from goods,type where goods.tid=type.tsort;
+8. 查询销量最高的三个商品
+select goods.gname,orders.num from goods,orders where goods.gid=orders.goodid order by orders.num desc limit 0,3;
+把对应的sql语句写到执行测试无误后写到html中上传提交
+
+
+</body>
+</html>
