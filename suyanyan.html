@@ -1,0 +1,65 @@
+show databases;
+use test;
+create table shop(
+-> id int(11) not null auto_increment primary key,
+-> sname varchar(100) not null,
+-> sprice int(20) not null,
+-> tid int(11) not null,
+-> num int(11) not null
+-> )engine=innodb default charset=utf8;
+
+create table type(
+-> id int(11) not null auto_increment primary key,
+-> tname varchar(100) not null,
+-> tsort int(11) not null
+-> )engine=innodb default charset=utf8;
+
+create table goods(
+-> id int(11) not null auto_increment primary key,
+-> sid int(11) not null,
+-> gnum int(11) not null
+-> )engine=innodb default charset=utf8;
+
+nsert into shop(sname,sprice,tid,num) values
+-> ("西装",245,1,23),
+-> ("白裙",321,2,12),
+-> ("运动服男",432,1,33),
+-> ("休闲服女",211,2,42),
+-> ("运动服女",322,2,11);
+
+insert into type(tname,tsort) values
+-> ("男装",1),
+-> ("女装",2);
+
+nsert into goods(sid,gnum) values
+-> (1,22),
+-> (2,32),
+-> (3,33),
+-> (5,60);
+Query OK, 4 rows affected (0.15 sec)
+
+<!--查询所有商品的平均价格-->
+select avg(sprice) as price from shop;
+
+<!--查询某一类型商品的平均价格-->
+select tname,avg(sprice) as price from shop,type where type.id=2;
+
+<!--查询某个商品的存货价值-->
+select sname,sprice*num from shop where id=1;
+
+<!--查询某个有个订单的金额-->
+select sname,sprice*gnum as total from shop,goods where shop.id=goods.sid;
+select sname,sprice*gnum as total from shop,goods where shop.id=goods.sid and goods.id=1;
+
+<!--查询价格最低的三个商品-->
+select * from shop order by sprice limit 0,3;
+
+<!--查询最新添加的三个商品-->
+select sname from shop order by id desc limit 0,3;
+
+<!--查询商品的所有信息以及他的类型-->
+select shop.*,tname from shop,type where shop.tid=type.id;
+
+<!--查询销量最高的三个商品-->
+select sname,gnum from shop,goods where goods.sid=shop.id order by gnum desc limit 0,3;
+
