@@ -1,0 +1,78 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+show databases;
+use test;
+create table shop(<br>
+-> id int(11) not null auto_increment primary key,<br>
+-> sname varchar(100) not null,<br>
+-> sprice int(20) not null,<br>
+-> tid int(11) not null,<br>
+-> num int(11) not null<br>
+-> )engine=innodb default charset=utf8;<br>
+<br>
+create table type(<br>
+-> id int(11) not null auto_increment primary key,<br>
+-> tname varchar(100) not null,<br>
+-> tsort int(11) not null<br>
+-> )engine=innodb default charset=utf8;<br>
+<br>
+create table goods(<br>
+-> id int(11) not null auto_increment primary key,<br>
+-> sid int(11) not null,<br>
+-> gnum int(11) not null<br>
+-> )engine=innodb default charset=utf8;<br>
+<br>
+nsert into shop(sname,sprice,tid,num) values<br>
+-> ("西装",245,1,23),<br>
+-> ("白裙",321,2,12),<br>
+-> ("运动服男",432,1,33),<br>
+-> ("休闲服女",211,2,42),<br>
+-> ("运动服女",322,2,11);<br>
+<br>
+insert into type(tname,tsort) values<br>
+-> ("男装",1),<br>
+-> ("女装",2);<br>
+<br>
+nsert into goods(sid,gnum) values<br>
+-> (1,22),<br>
+-> (2,32),<br>
+-> (3,33),<br>
+-> (5,60);<br>
+Query OK, 4 rows affected (0.15 sec)<br>
+<br>
+查询所有商品的平均价格<br>
+select avg(sprice) as price from shop;<br>
+<br>
+查询某一类型商品的平均价格<br>
+select tname,avg(sprice) as price from shop,type where type.id=2;<br>
+<br>
+查询某个商品的存货价值<br>
+select sname,sprice*num from shop where id=1;<br>
+<br>
+查询某个有个订单的金额<br>
+select sname,sprice*gnum as total from shop,goods where shop.id=goods.sid;<br>
+select sname,sprice*gnum as total from shop,goods where shop.id=goods.sid and goods.id=1;<br>
+<br>
+查询价格最低的三个商品<br>
+select * from shop order by sprice limit 0,3;<br>
+<br>
+查询最新添加的三个商品<br>
+select sname from shop order by id desc limit 0,3;<br>
+<br>
+查询商品的所有信息以及他的类型<br>
+select shop.*,tname from shop,type where shop.tid=type.id;<br>
+<br>
+查询销量最高的三个商品<br>
+select sname,gnum from shop,goods where goods.sid=shop.id order by gnum desc limit 0,3;<br>
+
+
+</body>
+</html>
