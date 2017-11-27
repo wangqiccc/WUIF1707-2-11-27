@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+1.建数据库：
+create database shopping;
+
+2.建数据表：
+    2.1：商品表：
+    create table shangpin(
+     id int(10) not null auto_increment primary key,
+     sname varchar(100) not null,
+     jiage varchar(100) not null,
+     num int(100) not null,
+     sid int(10) not null
+     ) engine=innodb default charset = utf8;
+
+    2.2：类型表：
+    create table leixing(
+     lid int(10) not null auto_increment primary key,
+     lname varchar(100) not null,
+     pid int(10) not null
+     ) engine=innodb default charset = utf8;
+
+    2.3：订单表：
+    create table dingdan(
+     did int(10) not null auto_increment primary key,
+     dnum int(100) not null,
+     aid int(10) not null
+     ) engine=innodb default charset = utf8;
+
+3.添加数据：
+3.1：商品数据：id 商品名称 商品价格 商品数量 商品类型id
+INSERT INTO shangpin(sname,jiage,num,sid) VALUES ("荣耀V9","2399","2321","1"),("荣耀7X","1299","1300","1"),("VIVOX 20","2998","3020","2"),("VIVO X20Plus","3498","2010","2"),("OPPO R11s","2999","3402","3"),("OPPO R11s Plus","3699","2600","2");
+
+3.2：类型表：id 类型名称 类型排序
+INSERT INTO leixing(lname,pid) VALUES ("华为手机","1"),("VIVOX手机","2"),("OPPO手机","3");
+
+3.3：订单表：id 个数 商品id
+INSERT INTO dingdan(dnum,aid) VALUES ("100","1"),("130","2"),("302","3"),("201","4"),("340","5"),("150","6");
+
+4.1：查询所有商品的平均价格：
+select avg(jiage) as "平均价格" from shangpin;
+
+4.2：查询某一类型商品的平均价格：
+select lname,avg(jiage) "某一类型商品的平均价格" from shangpin,leixing where shangpin.sid=leixing.pid and leixing.pid=2;
+
+4.3：查询某个商品的存货价值：
+select jiage*(num-dnum) as "存货价值" from shangpin,dingdan where shangpin.id=dingdan.aid and shangpin.id=2;
+
+4.4：查询某个订单的金额：
+select sname,jiage*dnum as "订单金额"from shangpin,dingdan where shangpin.id=dingdan.aid and shangpin.id=1;
+
+4.5：查询价格最低的三个商品：
+select * from shangpin order by jiage limit 0,3;
+
+4.6：查询最新添加的一个商品：
+select * from shangpin order by id DESC limit 0,1;
+
+4.7：查询商品的所有信息以及它的类型：
+select shangpin.*,leixing.lname from shangpin,leixing where shangpin.sid=leixing.pid;
+
+4.8：查询销量最高的三个商品：
+select shangpin.sname,dingdan.dnum from shangpin,dingdan where shangpin.id=dingdan.aid order by dingdan.dnum desc limit 0,3;
+
+</body>
+</html>
