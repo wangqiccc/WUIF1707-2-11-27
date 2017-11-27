@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<h3>1.所有商品平均价格</h3>
+<p>SELECT avg(merprice) as avgnum FROM merchan;</p>
+<h3>2.某一类型商品平均价格</h3>
+<p>SELECT avg(merprice) as avgnum FROM merchan WHERE tid=2;</p>
+<h3>3.查询某个商品的存货价值</h3>
+<p>SELECT merprice*invent as value FROM merchan WHERE mername="芒果";</p>
+<h3>4.查询某个订单的金额</h3>
+<p>SELECT merprice*gnumber FROM merchan,goodsorder WHERE merchan.id=goodsorder.goodid and goodsorder.goodid="7";</p>
+<h3>5.价格最低三个产品</h3>
+<p>SELECT * FROM merchan ORDER BY merprice LIMIT 0,3;</p>
+<h3>6.最新添加的一个产品</h3>
+<p>SELECT * FROM merchan ORDER BY id DESC LIMIT 0,1;</p>
+<h3>7.商品所有信息和类型</h3>
+<p>SELECT * FROM merchan,type WHERE merchan.tid=type.id;</p>
+<h3>8.销量最高三个产品</h3>
+<p>SELECT * FROM goodsorder ORDER BY gnumber DESC LIMIT 0,3;</p>
+
+</body>
+</html>
