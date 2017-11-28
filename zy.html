@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+查询所有商品的平均价：
+select avg(spjg) as "平均价" from yfspb;
+查询某一类型商品的平均价：
+select lname,avg(spjg) "某一类型商品的平均价"  from yfspb,type where type.id=2;;
+查询某个商品的存货价值：
+select sname,spjg*num from yfspb where id=1;
+查询某个订单的金额：
+select spmc,spjg*dspsl as "订单金额"from yfspb,yfdd where yfspb.id=yfdd.sid;
+查询价格最低的三个商品：
+select * from yfspb order by spjg limit 0,3;
+查询最新添加的一个商品：
+select * from yfspb order by id DESC limit 0,1;
+查询商品的所有信息以及它的类型：
+select yfspb.*,yflx from yfspb,yflx where yfspb.spid=type.pid;
+查询销量最高的三个商品：
+select yfspb.spmc,yfdd.dspsl from yfspb,yfdd where yfspb.id=yfdd.aid order by yfdd.dspsl desc limit 0,3;
+
+	
+</body>
+</html>
