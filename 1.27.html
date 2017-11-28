@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+1. 商品表  id 商品名称 商品价格 商品类型id  存货量
+2. 类型表  id 类型名称 类型排序
+3. 订单表  id 商品id  个数
+<!--商品表----->
+create table shangpin(
+-> id int(11) not null auto_increment primary key,
+-> tname varchar(100) not null,
+-> tprice int(11) not null,
+-> tid int(11) not null,
+-> tnum int(11) not null
+-> )engine=innodb default charset=utf8;
+insert into shangpin value(1,"苹果",2,1,100);
+insert into shangpin values(2,"西瓜",3,1,100);
+insert into shangpin values(3,"白菜",4,2,100);
+insert into shangpin values(4,"土豆",5,2,100);
+
+
+<!--类型表----->
+create table leixing(
+-> id int(11) not null auto_increment primary key,
+-> lxname varchar(100) not null,
+-> lxsort int(11) not null
+-> )engine=innodb default charset=utf8;
+insert into leixing values(1,"水果",1);
+insert into leixing values(2,"蔬菜",2);
+
+
+<!--订单表-->
+create table dingdan(
+-> id int(11) not null auto_increment primary key,
+-> cid int(11) not null,
+-> cnum int(100) not null
+-> )engine=innodb default charset=utf8;
+insert into dingdan values(1,1,20);
+insert into dingdan values(2,2,30);
+insert into dingdan values(3,3,40);
+insert into dingdan values(4,4,50);
+
+
+<!--1. 查询所有商品的平均价格-->
+select avg(tprice) as tprice from shangpin;
+
+<!--2. 查询某一类型商品的平均价格-->
+select avg(tprice) as Average from shangpin  where tid=1;
+
+<!--3. 查询某个商品的存货价值-->
+select tprice*tnum as value from shangpin where tname="苹果";
+
+<!--4. 查询某个订单的金额-->
+select tprice*cnum as value from shangpin,dingdan where shangpin.id
+
+=dingdan.id
+
+and tname="苹果";
+
+<!--5. 查询价格最低的三个商品-->
+select * from shangpin order by tprice limit 0,3;
+
+
+<!--6. 查询最新添加的一个商品-->
+select * from shangpin order by id desc limit 0,1;
+
+
+<!--7. 查询商品的所有信息以及它的类型-->
+select * from shangpin,dingdan where shangpin.id
+
+=dingdan.id
+
+;
+
+
+<!--8. 查询销量最高的三个商品-->
+select * from dingdan order by cnum desc limit 0,3;
+
+</body>
+</html>
