@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+<body>
+<!--1. 查询所有商品的平均价格-->
+mysql> select avg(jiage) as "平均价格" from shangpin;
+<!--2. 查询某一类型商品的平均价格-->
+mysql> select avg(jiage) as "商品平均价格" from shangpin where lid=3;
+<!--3. 查询某个商品的存货价值-->
+mysql> select name as "商品",sum(jiage*kucun) as "商品库存总价" from shangpin where id=1;
+<!--4. 查询某个订单的金额-->
+mysql> select shangpin.jiage*dingdan.num from shangpin,dingdan where dingdan.sid=shangpin.id;
+<!--5. 查询价格最低的三个商品-->
+mysql> select * from shangpin order by jiage limit 0,3;
+<!--6. 查询最新添加的一个商品-->
+mysql> select * from shangpin order by id desc limit 0,1;
+<!--7. 查询商品的所有信息以及它的类型-->
+mysql> select shangpin.*,leixing.lname as "商品类型" from shangpin,leixing where shangpin.lid=leixing.id;
+<!--8. 查询销量最高的三个商品-->
+mysql> select shangpin.name as "商品名称",dingdan.num as "销量" from shangpin,dingdan where shangpin.id=dingdan.sid order by dingdan.num desc limit 0,3;
+
+</body>
+</html>
